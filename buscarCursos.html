@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador de Cursos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Código CSS */
+        .course-card {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .course-card:hover {
+            transform: scale(1.03);
+        }
+
+        .search-container {
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 15px;
+            border: 2px solid #8f803c;
+            border-radius: 5px;
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+
+        .button {
+            padding: 10px 10px;
+            font-size: 1.2em;
+            color: white;
+            background-color: #dfa54e;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #af9755;
+        }
+
+        .links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        .links a {
+            text-decoration: none;
+            color: #dfb14e;
+            transition: color 0.3s;
+        }
+
+        .links a:hover {
+            color: #8f803c;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Buscar cursos..." aria-label="Buscar cursos">
+        <button class="button" onclick="buscarCursos()">Buscar</button>
+    </div>
+   
+    <div id="courseList">
+        <!-- Aquí se mostrarán los cursos -->
+    </div>
+    <div class="links">
+        <a href="javascript:history.back()"><i class="fas fa-arrow-left"></i> Atrás</a>
+        <a href="secciones.html">Pag. Principal <i class="fas fa-home"></i></a>
+    </div>
+    <script>
+        // Función para buscar cursos según la entrada del usuario
+        function buscarCursos() {
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            const cursos = JSON.parse(localStorage.getItem('cursos')) || [];
+            
+            const resultados = cursos.filter(curso =>
+                curso.nombreCurso.toLowerCase().includes(searchQuery) ||
+                curso.categoria.toLowerCase().includes(searchQuery) ||
+                curso.descripcion.toLowerCase().includes(searchQuery)
+            );
+            mostrarResultados(resultados);
+        }
+
+        // Función para mostrar los cursos en la página
+        function mostrarResultados(resultados) {
+            const courseList = document.getElementById('courseList');
+            courseList.innerHTML = ''; // Limpia los resultados previos
+
+            if (resultados.length > 0) {
+                resultados.forEach((curso, index) => {
+                    const courseCard = document.createElement('div');
+                    courseCard.className = 'course-card';
+                    courseCard.innerHTML = `
+                        <h3>${curso.nombreCurso}</h3>
+                        <p><strong>Institución:</strong> ${curso.nombreInstitucion || 'N/A'}</p>
+                        <p><strong>Categoría:</strong> ${curso.categoria}</p>
+                        <p><strong>Duración:</strong> ${curso.duracion}</p>
+                        <p><strong>Descripción:</strong> ${curso.descripcion}</p>
+                        <button class="button delete-button" onclick="eliminarCurso(${index})">Eliminar</button>
+                    `;
+                    courseList.appendChild(courseCard);
+                });
+            } else {
+                courseList.innerHTML = '<p>No se encontraron cursos.</p>';
+            }
+        }
+
+        // Función para eliminar un curso
+        function eliminarCurso(index) {
+            const cursos = JSON.parse(localStorage.getItem('cursos')) || [];
+            if (confirm(`¿Estás seguro de que deseas eliminar el curso "${cursos[index].nombreCurso}"?`)) {
+                cursos.splice(index, 1); // Eliminar curso de la lista
+                localStorage.setItem('cursos', JSON.stringify(cursos)); // Guardar la lista actualizada
+                mostrarResultados(cursos); // Actualizar la vista
+                alert('Curso eliminado correctamente.');
+            }
+        }
+
+        // Cargar todos los cursos al iniciar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            const cursos = JSON.parse(localStorage.getItem('cursos')) || [];
+            mostrarResultados(cursos); // Muestra todos los cursos inicialmente
+        });
+    </script>
+</body>
+</html>

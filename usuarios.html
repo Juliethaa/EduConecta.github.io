@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información del Usuario</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f6d365, #fda085);
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #8f803c;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .small-logo {
+            width: 60px;
+            margin-bottom: 30px;
+        }
+
+        .info-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .input-group {
+            flex: 1 1 45%;
+            min-width: 300px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1.2em;
+            margin-bottom: 8px;
+            color: #333;
+            display: block;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #b4a14dd3;
+            border-radius: 8px;
+            font-size: 1em;
+            background-color: #f9f9f9;
+            resize: none;
+        }
+
+        textarea {
+            height: 50px;
+        }
+
+        .logout-button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            color: white;
+            background-color: #dfa54e;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: background-color 0.3s;
+        }
+
+        .logout-button:hover {
+            background-color: #af9755;
+        }
+
+        .navigation-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .navigation-links a {
+            text-decoration: none;
+            color: #dfb14e;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: color 0.3s;
+        }
+
+        .navigation-links a:hover {
+            color: #8f803c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Información de Usuario</h1>
+        <img src="img/editar.png" alt="Logo" class="small-logo">
+
+        <div class="info-container">
+            <div class="input-group">
+                <label>Nombre de Usuario:</label>
+                <input type="text" id="nombreMostrado" readonly>
+            </div>
+            <div class="input-group">
+                <label>Habilidades:</label>
+                <input type="text" id="habilidadesMostrado" readonly>
+            </div>
+            <div class="input-group">
+                <label>Experiencia Laboral:</label>
+                <textarea id="experienciaMostrado" readonly></textarea>
+            </div>
+            <div class="input-group">
+                <label>Educación:</label>
+                <input type="text" id="educacionMostrado" readonly>
+            </div>
+        </div>
+
+        <button class="logout-button" onclick="location.href='index.html'">Cerrar sesión</button>
+
+        <div class="navigation-links">
+            <a href="secciones.html"><i class="fas fa-home"></i> Regresar a Principal</a>
+        </div>
+    </div>
+
+    <script>
+        const usuario = JSON.parse(localStorage.getItem('usuario'));
+        if (usuario) {
+            document.getElementById('nombreMostrado').value = usuario.nombre;
+            document.getElementById('habilidadesMostrado').value = usuario.habilidades;
+            document.getElementById('experienciaMostrado').value = usuario.experiencia;
+            document.getElementById('educacionMostrado').value = usuario.educacion;
+        }
+    </script>
+</body>
+</html>
