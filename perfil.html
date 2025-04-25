@@ -213,17 +213,29 @@
 <button class="logout-button" onclick="guardarDatos()">Guardar</button>
 
 <script>
-function guardarDatos() {
-    const usuario = {
-        nombre: document.getElementById('username').value,
-        habilidades: document.getElementById('skills').value,
-        experiencia: document.getElementById('experience').value,
-        educacion: document.getElementById('education').value
-    };
-    localStorage.setItem('usuario', JSON.stringify(usuario));
-    window.location.href = 'usuarios.html';
-}
-</script>
+    function guardarDatos() {
+        const nombre = document.getElementById('username').value.trim();
+        const habilidades = document.getElementById('skills').value.trim();
+        const experiencia = document.getElementById('experience').value.trim();
+        const educacion = document.getElementById('education').value.trim();
+    
+        if (!nombre || !habilidades || !experiencia || !educacion) {
+            alert('Por favor, completa todos los campos antes de guardar.');
+            return;
+        }
+    
+        const usuario = {
+            nombre: nombre,
+            habilidades: habilidades,
+            experiencia: experiencia,
+            educacion: educacion
+        };
+    
+        localStorage.setItem('usuario', JSON.stringify(usuario));
+        window.location.href = 'usuarios.html';
+    }
+    </script>
+    
 
     </div>
 </body>
